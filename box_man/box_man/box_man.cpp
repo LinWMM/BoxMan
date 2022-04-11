@@ -12,25 +12,12 @@ using namespace std;
 IMAGE images[ALL];
 IMAGE bg_img;
 
-struct _POS man;  //Ğ¡ÈËÔÚ¶şÎ¬Êı×éÖĞµÄÎ»ÖÃ
+struct _POS man;  //å°äººåœ¨äºŒç»´æ•°ç»„ä¸­çš„ä½ç½®
 
-/*ÓÎÏ·µØÍ¼*/
+/*æ¸¸æˆåœ°å›¾*/
 int map[LINE][COLUMN] = { 0 };
-/*int map[LINE][COLUMN] = {
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
-	{ 0, 1, 4, 1, 0, 2, 1, 0, 2, 1, 0, 0 },
-	{ 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0 },
-	{ 0, 1, 0, 2, 0, 1, 1, 4, 1, 1, 1, 0 },
-	{ 0, 1, 1, 1, 0, 3, 1, 1, 1, 4, 1, 0 },
-	{ 0, 1, 2, 1, 1, 4, 1, 1, 1, 1, 1, 0 },
-	{ 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0 },
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-};*/
 
-
-
-//*ÅĞ¶ÏÓÎÏ·ÊÇ·ñ½áÊø£¬Èç¹û²»´æÔÚÈÎºÎÒ»¸öÏä×ÓÄ¿µÄµØ£¬¾Í´ú±íÓÎÏ·½áÊø
+//*åˆ¤æ–­æ¸¸æˆæ˜¯å¦ç»“æŸï¼Œå¦‚æœä¸å­˜åœ¨ä»»ä½•ä¸€ä¸ªç®±å­ç›®çš„åœ°ï¼Œå°±ä»£è¡¨æ¸¸æˆç»“æŸ
 bool isGameOver() {
 	for (int i = 0; i < LINE; i++) {
 		for (int j = 0; j < COLUMN; j++) {
@@ -40,35 +27,35 @@ bool isGameOver() {
 	return true;
 }
 
-//ÌáÊ¾Íæ¼ÒÓÎÏ·½áÊø£¬ÓÎÏ·½áÊø³¡¾°£¬ÔÚÍæ¼ÒÍ¨¹ØºóÏÔÊ¾
+//æç¤ºç©å®¶æ¸¸æˆç»“æŸï¼Œæ¸¸æˆç»“æŸåœºæ™¯ï¼Œåœ¨ç©å®¶é€šå…³åæ˜¾ç¤º
 void gameOverScene(IMAGE* bg) {
 	putimage(0, 0, bg);
 	settextcolor(WHITE);
 	RECT rec = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	settextstyle(20, 0, _T("ËÎÌå"));
-	drawtext(_T("¹§Ï²Äú~\nÒÑ¾­³ÉÎªÁËÒ»¸öºÏ¸ñµÄÍÆÏä×ÓÀÏË¾»ú£¡"), &rec, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	settextstyle(20, 0, _T("å®‹ä½“"));
+	drawtext(_T("æ­å–œæ‚¨~\nå·²ç»æˆä¸ºäº†ä¸€ä¸ªåˆæ ¼çš„æ¨ç®±å­è€å¸æœºï¼"), &rec, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	::system("pause");
 }
 
-//ÌáÊ¾Íæ¼Ò½øÈëÏÂÒ»¹Ø
+//æç¤ºç©å®¶è¿›å…¥ä¸‹ä¸€å…³
 void gameNextScene(IMAGE* bg) {
 	putimage(0, 0, bg);
 	settextcolor(WHITE);
 	RECT rec = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	settextstyle(20, 0, _T("ËÎÌå"));
-	drawtext(_T("¹§Ï²Äú~\nÈÎÒâ¼üÌø×ªÏÂÒ»¹Ø£¡"), &rec, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	settextstyle(20, 0, _T("å®‹ä½“"));
+	drawtext(_T("æ­å–œæ‚¨~\nä»»æ„é”®è·³è½¬ä¸‹ä¸€å…³ï¼"), &rec, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	::system("pause");
 	cleardevice();
 }
 
 
-//Ë¢ĞÂµØÍ¼£¬MANÃ¿×ßÒ»²½£¬Ë¢ĞÂÒ»´Î
+//åˆ·æ–°åœ°å›¾ï¼ŒMANæ¯èµ°ä¸€æ­¥ï¼Œåˆ·æ–°ä¸€æ¬¡
 void changeMap(POS* pos, PROPS prop) {
 	map[pos->x][pos->y] = prop;
 	putimage(START_X + pos->y * RATIO, START_Y + pos->x * RATIO, &images[prop]);
 }
 
-//·½Ïò¿ØÖÆ
+//æ–¹å‘æ§åˆ¶
 void gameControl(DIRECTION direct) {
 
 	POS next_pos = man;
@@ -91,29 +78,7 @@ void gameControl(DIRECTION direct) {
 		next_next_pos.y += 2;
 		break;
 	}
-#ifndef IMPROVE
-	//ºêÕ¹¿ª next_pos.x>=0 && next_pos.x<LINE && next_pos.y>=0 && next_pos.y <COLUMN
-	if (isValid(next_pos) && (map[next_pos.x][next_pos.y] == FLOOR)) {//ÈËµÄÇ°·½ÊÇµØ°å
-		changeMap(&next_pos, MAN); //Ğ¡ÈËÇ°½øÒ»¸ñ
-		changeMap(&man, FLOOR);
-		man = next_pos;
-	}
-	else if (isValid(next_next_pos) && map[next_pos.x][next_pos.y] == BOX)
-	{//ÈËµÄÇ°·½ÊÇÏä×Ó
-		if (map[next_next_pos.x][next_next_pos.y] == FLOOR) {
-			changeMap(&next_next_pos, BOX);
-			changeMap(&next_pos, MAN); //Ğ¡ÈËÇ°½øÒ»¸ñ
-			changeMap(&man, FLOOR);
-			man = next_pos;
-		}
-		else if (map[next_next_pos.x][next_next_pos.y] == DES) {
-			changeMap(&next_next_pos, BOX_DES);
-			changeMap(&next_pos, MAN); //Ğ¡ÈËÇ°½øÒ»¸ñ
-			changeMap(&man, FLOOR);
-			man = next_pos;
-		}
-	}
-#else
+
 	if (isValid(next_pos) && (map[next_pos.x][next_pos.y] == FLOOR || map[next_pos.x][next_pos.y] == DES)) {
 		if (map[next_pos.x][next_pos.y] == FLOOR)
 		{
@@ -122,7 +87,7 @@ void gameControl(DIRECTION direct) {
 				changeMap(&next_pos, MAN);
 				changeMap(&man, FLOOR);
 			}
-			else if (map[man.x][man.y] == MAN_DES)//ÈËµ±Ç°ÔÚÄ¿µÄµØÉÏ
+			else if (map[man.x][man.y] == MAN_DES)//äººå½“å‰åœ¨ç›®çš„åœ°ä¸Š
 			{
 				changeMap(&next_pos, MAN);
 				changeMap(&man, DES);
@@ -144,7 +109,7 @@ void gameControl(DIRECTION direct) {
 		man = next_pos;
 	}
 
-	//ÏÂÒ»¸öÊÇÏä×Ó
+	//ä¸‹ä¸€ä¸ªæ˜¯ç®±å­
 	else if (isValid(next_next_pos) && (map[next_pos.x][next_pos.y] == BOX || map[next_pos.x][next_pos.y] == BOX_DES))
 	{
 		if (map[next_pos.x][next_pos.y] == BOX)
@@ -194,24 +159,22 @@ void gameControl(DIRECTION direct) {
 			}
 		}
 	}
-#endif 
-
 }
 
-//ÓÃ»§µÇÂ¼
+//ç”¨æˆ·ç™»å½•
 bool login(userinfo& user) {
 	int times = 0;
 	bool ret = false;
 
-#define MAX_RETRY_TIMES  4    //×î´óÊäÈë´ÎÊı
+#define MAX_RETRY_TIMES  4    //æœ€å¤§è¾“å…¥æ¬¡æ•°
 	do {
-		cout << "ÇëÊäÈëÓÃ»§Ãû: ";
+		cout << "è¯·è¾“å…¥ç”¨æˆ·å: ";
 		cin >> user.username;
 
-		cout << "ÇëÊäÈëÃÜÂë: ";
+		cout << "è¯·è¾“å…¥å¯†ç : ";
 		cin >> user.passwd;
 
-		//·µ»Ø bool ,³É¹¦·µ»Øtrue ,Ê§°Ü·µ»Øfalse .
+		//è¿”å› bool ,æˆåŠŸè¿”å›true ,å¤±è´¥è¿”å›false .
 		ret = fetch_user_info(user);
 		times++;
 
@@ -219,21 +182,21 @@ bool login(userinfo& user) {
 			break;
 		}
 		if (ret == false) {
-			cout << "µÇÂ½Ê§°Ü£¬ÇëÖØĞÂÊäÈë!" << endl;
+			cout << "ç™»é™†å¤±è´¥ï¼Œè¯·é‡æ–°è¾“å…¥!" << endl;
 		}
 	} while (!ret);
 
 	return ret;
 }
 
-//³õÊ¼»¯±³¾°
+//åˆå§‹åŒ–èƒŒæ™¯
 void initGameGraphic()
 {
 	initgraph(SCREEN_WIDTH, SCREEN_HEIGHT);
 	loadimage(&bg_img, _T("blackground.bmp"), SCREEN_WIDTH, SCREEN_HEIGHT, true);
 	putimage(0, 0, &bg_img);
 
-	//¼ÓÔØµÀ¾ßÍ¼±ê
+	//åŠ è½½é“å…·å›¾æ ‡
 	loadimage(&images[WALL], _T("picture/wall_right.bmp"), RATIO, RATIO, true);
 	loadimage(&images[FLOOR], _T("picture/floor.bmp"), RATIO, RATIO, true);
 	loadimage(&images[DES], _T("picture/des.bmp"), RATIO, RATIO, true);
@@ -248,11 +211,8 @@ int main(void) {
 	levelinfo level;
 
 	int ret = false;
-	/*user.username = "lin";     
-	user.passwd = "wanglin";
-	*/
 
-	if (!login(user))//
+	if (!login(user))
 	{
 		cout << "login back in" << endl;
 		return -1;
@@ -263,12 +223,12 @@ int main(void) {
 
 	}
 
-	//³õÊ¼»¯£¬°ó¶¨Í¼Æ¬ĞÅÏ¢
+	//åˆå§‹åŒ–ï¼Œç»‘å®šå›¾ç‰‡ä¿¡æ¯
 	initGameGraphic();
 
 	bool quit = false;
 	do {
-		if (fetch_level_info(level, user.level_id) == false)    //»ñÈ¡¹Ø¿¨ĞÅÏ¢
+		if (fetch_level_info(level, user.level_id) == false)    //è·å–å…³å¡ä¿¡æ¯
 		{
 			cout << "no such level.\n";
 			return -1;
@@ -280,7 +240,7 @@ int main(void) {
 		}
 
 
-		//Êı¾İ¿âÖĞµÄµØÍ¼Êı¾İ×ª»»³Émap
+		//æ•°æ®åº“ä¸­çš„åœ°å›¾æ•°æ®è½¬æ¢æˆmap
 		ret = transform_map_db2array(level, map);
 
 		for (int i = 0; i < level.map_row; i++) {
@@ -293,9 +253,9 @@ int main(void) {
 			}
 		}
 
-		//ÓÎÏ·»·½Ú
+		//æ¸¸æˆç¯èŠ‚
 		do {
-			if (_kbhit()) { //Íæ¼Ò°´¼ü
+			if (_kbhit()) { //ç©å®¶æŒ‰é”®
 				char ch = _getch();
 
 				if (ch == KEY_UP) {
@@ -321,11 +281,11 @@ int main(void) {
 						break;
 					}
 					
-					//¸üĞÂÓÃ»§ĞÅÏ¢
+					//æ›´æ–°ç”¨æˆ·ä¿¡æ¯
 					gameNextScene(&bg_img);
 					update_user_level(user, level.next_level_id);
 					user.level_id = level.next_level_id;
-					break;   //µ÷³öµ±Ç°Ñ­»·£¬ÖØĞÂ¼ÓÔØµØÍ¼
+					break;   //è°ƒå‡ºå½“å‰å¾ªç¯ï¼Œé‡æ–°åŠ è½½åœ°å›¾
 					//quit = true;
 				}
 			}
@@ -336,7 +296,7 @@ int main(void) {
 
 	::system("pause");
 
-	//ÓÎÏ·½áÊø£¬ÊÍ·Å×ÊÔ´
+	//æ¸¸æˆç»“æŸï¼Œé‡Šæ”¾èµ„æº
 	closegraph();
 	::system("pause");
 	return 0;
