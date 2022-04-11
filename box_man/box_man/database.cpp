@@ -8,11 +8,11 @@ using namespace std;
 
 static bool connect_db(MYSQL& mysql)
 {
-	//³õÊ¼»¯MYSQL¾ä±ú
+	//åˆå§‹åŒ–MYSQLå¥æŸ„
 	mysql_init(&mysql);
 
-	//ÉèÖÃ×Ö·û±àÂë
-	mysql_options(&mysql, MYSQL_SET_CHARSET_NAME, "gbk");    //"gbk"×Ö·û±àÂëÖ§³ÖÖĞÎÄ
+	//è®¾ç½®å­—ç¬¦ç¼–ç 
+	mysql_options(&mysql, MYSQL_SET_CHARSET_NAME, "gbk");    //"gbk"å­—ç¬¦ç¼–ç æ”¯æŒä¸­æ–‡
 
 	if (mysql_real_connect(&mysql, DEFAULT_HOST, DEFAULT_USER_NAME, \
 		DEFAULT_USER_PASSWD, DEFAULT_DB_NAME, DEFAULT_PORT, NULL, 0) == NULL)
@@ -29,9 +29,9 @@ bool fetch_user_info(userinfo& user)
 	MYSQL mysql;
 	MYSQL_RES* res;
 	MYSQL_ROW row;
-	char sql[256];   //´¢´æÒªÖ´ĞĞµÄsqlÓï¾ä
+	char sql[256];   //å‚¨å­˜è¦æ‰§è¡Œçš„sqlè¯­å¥
 
-	//Á¬½ÓÊı¾İ¿â
+	//è¿æ¥æ•°æ®åº“
 	if (connect_db(mysql) == false)
 	{
 		return false;
@@ -47,7 +47,7 @@ bool fetch_user_info(userinfo& user)
 		return false;
 	}
 
-	//»ñÈ¡½á¹û
+	//è·å–ç»“æœ
 	res = mysql_store_result(&mysql);
 	row = mysql_fetch_row(res);
 	if (row == NULL)
@@ -107,11 +107,6 @@ bool fetch_level_info(levelinfo& level, int level_id)
 	level.map_column = atoi(row[2]);
 	level.map_data = row[3];
 	level.next_level_id = atoi(row[4]);
-	/*
-	cout << "map_row:" << level.map_row << endl;
-	cout << "map_column:" << level.map_column << endl;
-	cout << "next_level_id:" << level.next_level_id << endl;
-	*/
 
 	mysql_free_result(res);
 	mysql_close(&mysql);
@@ -141,15 +136,15 @@ bool transform_map_db2array(levelinfo& level, int map[LINE][COLUMN])
 			end = level.map_data.length();
 		}
 
-		if (start >= end) break;     //·ÀÖ¹×îºó¶à¼ÓÁËÒ»¸ö |
+		if (start >= end) break;     //é˜²æ­¢æœ€åå¤šåŠ äº†ä¸€ä¸ª |
 
-		string line = level.map_data.substr(start, end - start);    //µÃµ½Ò»ĞĞÊı¾İ
+		string line = level.map_data.substr(start, end - start);    //å¾—åˆ°ä¸€è¡Œæ•°æ®
 		printf("get line: %s\n", line.c_str());
 
-		//¶ÔĞĞµØÍ¼Êı¾İ½øĞĞ½âÎö
+		//å¯¹è¡Œåœ°å›¾æ•°æ®è¿›è¡Œè§£æ
 		char* next_token = NULL;
 		char* item = strtok_s((char*)line.c_str(), ",", &next_token);   
-		//°´ÕÕ¶ººÅ·Ö¸ô·ûÅü¿ª×Ö·û´®£¬°Ñ¶ººÅ¶¨½ç·û¸Ä³É'\0'£¬È»ºóÊ£ÏÂµÄ×Ö·û´®´æÔÚ&next_tokenÖĞ
+		//æŒ‰ç…§é€—å·åˆ†éš”ç¬¦åŠˆå¼€å­—ç¬¦ä¸²ï¼ŒæŠŠé€—å·å®šç•Œç¬¦æ”¹æˆ'\0'ï¼Œç„¶åå‰©ä¸‹çš„å­—ç¬¦ä¸²å­˜åœ¨&next_tokenä¸­
 
 		column = 0;
 
@@ -190,9 +185,9 @@ bool transform_map_db2array(levelinfo& level, int map[LINE][COLUMN])
 bool update_user_level(userinfo& user, int next_level_id)
 {
 	MYSQL mysql;
-	char sql[256];   //´¢´æÒªÖ´ĞĞµÄsqlÓï¾ä
+	char sql[256];   //å‚¨å­˜è¦æ‰§è¡Œçš„sqlè¯­å¥
 
-	//Á¬½ÓÊı¾İ¿â
+	//è¿æ¥æ•°æ®åº“
 	if (connect_db(mysql) == false)
 	{
 		return false;
